@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Card,
@@ -53,6 +54,8 @@ const transportServices: TransportCard[] = [
 ];
 
 const Agency: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: '#1a1a1a', marginBottom: 3 }}>
@@ -63,6 +66,7 @@ const Agency: React.FC = () => {
             color="inherit"
             aria-label="back"
             sx={{ mr: 2 }}
+            onClick={() => navigate('/')}
           >
             <ArrowBackIcon />
           </IconButton>

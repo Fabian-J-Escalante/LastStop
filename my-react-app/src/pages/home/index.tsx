@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Box,
   Card,
@@ -19,7 +20,7 @@ interface MenuCard {
 
 const menuItems: MenuCard[] = [
   {
-    id: 'agencia',
+    id: 'agencias',
     title: 'Agencia',
     image: '/api/placeholder/400/200'
   },
@@ -46,6 +47,8 @@ const menuItems: MenuCard[] = [
 ];
 
 const Home: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <Box sx={{ 
       flexGrow: 1, 
@@ -89,7 +92,9 @@ const Home: React.FC = () => {
                     transform: 'scale(1.02)',
                     transition: 'transform 0.2s ease-in-out'
                   }
-                }}>
+                }}
+                onClick={() => navigate(`/${item.id}`)}
+              >
                 <CardMedia
                   component="img"
                   height="200"

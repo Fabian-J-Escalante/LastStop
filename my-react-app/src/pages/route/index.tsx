@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   AppBar,
@@ -81,6 +82,8 @@ const styles = {
 } as const;
 
 const Ruta: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <Box sx={styles.root}>
       <AppBar position="static" sx={styles.appBar}>
@@ -90,6 +93,7 @@ const Ruta: React.FC = () => {
             color="inherit"
             aria-label="back"
             sx={{ mr: 2 }}
+            onClick={() => navigate('/')}
           >
             <ArrowBackIcon />
           </IconButton>
