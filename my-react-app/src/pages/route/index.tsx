@@ -80,7 +80,7 @@ const styles = {
   }
 } as const;
 
-const Routes: React.FC = () => {
+const Ruta: React.FC = () => {
   return (
     <Box sx={styles.root}>
       <AppBar position="static" sx={styles.appBar}>
@@ -127,4 +127,4 @@ const Routes: React.FC = () => {
   );
 };
 
-export default Routes;
+export default Ruta;

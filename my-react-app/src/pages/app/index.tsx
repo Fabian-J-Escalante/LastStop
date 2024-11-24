@@ -1,7 +1,7 @@
 import React from 'react';
-import Agencia from './Agency';
-import Home from './Home';
-import Routes from './Route';
+import Agencia from '../agency/index';
+import Home from '../home';
+import Routes from '../route';
 
 const App: React.FC = () => {
   return <Home />;
