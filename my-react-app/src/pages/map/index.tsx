@@ -77,10 +77,9 @@ const Map: React.FC = () => {
         </Toolbar>
       </AppBar>
 
-      {/* Input Box for Latitude and Longitude */}
       <Box sx={styles.inputBox}>
         <TextField
-          label="Latitude"
+          label="Latitud"
           variant="outlined"
           size="small"
           value={inputLat}
@@ -88,7 +87,7 @@ const Map: React.FC = () => {
           sx={{ marginBottom: '8px', width: '100%' }}
         />
         <TextField
-          label="Longitude"
+          label="Longitud"
           variant="outlined"
           size="small"
           value={inputLng}
@@ -96,7 +95,7 @@ const Map: React.FC = () => {
           sx={{ marginBottom: '8px', width: '100%' }}
         />
         <Button variant="contained" color="primary" onClick={handlePositionChange} fullWidth>
-          Go to Location
+          Ir a la parada
         </Button>
       </Box>
 
