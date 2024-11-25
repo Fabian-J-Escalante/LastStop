@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import './index.css';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -15,47 +16,36 @@ import {
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-interface TransportCard {
-  id: string;
-  title: string;
-  imageUrl: string;
-  description?: string;
+interface Agency {
+  agency_id: string;
+  agency_name: string;
+  image?: string; // Propiedad opcional para la imagen
 }
-
-const transportServices: TransportCard[] = [
-  {
-    id: 'mi-transporte',
-    title: 'Mi Transporte',
-    imageUrl: '/api/placeholder/400/200',
-    description: 'Conoce las nuevas rutas de Mi Transporte'
-  },
-  {
-    id: 'mi-transporte-electrico',
-    title: 'Mi Transporte Electrico',
-    imageUrl: '/api/placeholder/400/200',
-    description: 'Descubre los beneficios de Mi Transporte eléctrico'
-  },
-  {
-    id: 'mi-macro',
-    title: 'Mi Macro',
-    imageUrl: '/api/placeholder/400/200',
-    description: 'El mayor proyecto de movilidad en México'
-  },
-  {
-    id: 'mi-tren',
-    title: 'Mi Tren',
-    imageUrl: '/api/placeholder/400/200',
-    description: 'Arranque de la siguiente etapa de obra de la LÍNEA 4'
-  },
-  {
-    id: 'siteur',
-    title: 'SITEUR',
-    imageUrl: '/api/placeholder/400/200',
-  }
-];
 
 const Agency: React.FC = () => {
   const navigate = useNavigate();
+  const [agencies, setAgencies] = useState<Agency[]>([]);
+
+  useEffect(() => {
+    const fetchAgencies = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:5000/api/agency');
+        const agenciesWithImages = response.data.map((agency: Agency) => ({
+          ...agency,
+          image: `/images/agencies/${agency.agency_id}.png`, // Construye la URL de la imagen
+        }));
+        setAgencies(agenciesWithImages);
+      } catch (error) {
+        console.error('Error fetching agencies:', error);
+      }
+    };
+
+    fetchAgencies();
+  }, []);
+
+  const handleCardClick = (agency_id: string) => {
+    navigate(`../rutas?agency_id=${agency_id}`);
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -79,8 +69,8 @@ const Agency: React.FC = () => {
       
       <Container maxWidth="lg">
         <Grid container spacing={3}>
-          {transportServices.map((service) => (
-            <Grid item xs={12} sm={6} md={4} key={service.id}>
+          {agencies.map((agency) => (
+            <Grid item xs={12} sm={6} md={4} key={agency.agency_id}>
               <Card
                 sx={{
                   height: '100%',
@@ -92,23 +82,38 @@ const Agency: React.FC = () => {
                     transition: 'transform 0.2s ease-in-out'
                   }
                 }}
+                onClick={() => handleCardClick(agency.agency_id)}
               >
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image={service.imageUrl}
-                  alt={service.title}
-                  sx={{ objectFit: 'cover' }}
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h6" component="div">
-                    {service.title}
-                  </Typography>
-                  {service.description && (
-                    <Typography variant="body2" color="text.secondary">
-                      {service.description}
+                {agency.image ? (
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image={agency.image}
+                    alt={agency.agency_name}
+                    sx={{ objectFit: 'cover' }}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = ''; // Si la imagen no se encuentra, no muestra nada
+                    }}
+                  />
+                ) : (
+                  <Box
+                    sx={{
+                      height: 200,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: '#333' // Cambiado a gris oscuro
+                    }}
+                  >
+                    <Typography variant="h6" component="div" color="white">
+                      {agency.agency_name}
                     </Typography>
-                  )}
+                  </Box>
+                )}
+                <CardContent>
+                  <Typography gutterBottom variant="h6" component="div" color="textSecondary">
+                    {agency.agency_name}
+                  </Typography>
                 </CardContent>
               </Card>
             </Grid>
